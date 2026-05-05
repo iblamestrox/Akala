@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Akala Codes — Web Designer by Saksham Verma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  /* AKURO LIGHT MODE */
+  --bg: #FFFFFF; 
+  --bg-alt: rgba(247, 247, 248, 0.7); 
+  --bg-card: rgba(255, 255, 255, 0.8);
+  --text: #050505; 
+  --text-muted: #666666;
+  --accent: #E50914; 
+  --accent-light: #FCE6E7; 
+  --accent-mid: #B90710;
+  --border: rgba(229, 229, 229, 0.5); 
+  --border-light: rgba(240, 240, 240, 0.5);
+  --radius-sm: 10px; --radius-md: 18px; --radius-lg: 28px; --radius-xl: 40px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.06); 
+  --shadow-hover: 0 20px 60px rgba(229,9,20,0.2); 
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif; --font-mono: 'DM Mono', monospace;
+  --transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); --max-w: 1180px;
+  
+  --cta-text: #ffffff;
+  --cta-text-muted: rgba(255, 255, 255, 0.85);
+  --cta-border: rgba(255, 255, 255, 0.3);
+  --cta-bg: rgba(0, 0, 0, 0.1);
+  --cta-focus: #ffffff;
+}
+[data-theme="dark"] {
+  /* AKURO DARK MODE */
+  --bg: #050505; 
+  --bg-alt: rgba(12, 12, 12, 0.7); 
+  --bg-card: rgba(18, 18, 18, 0.65);
+  --text: #F5F5F5; 
+  --text-muted: #A3A3A3;
+  --accent: #E50914; 
+  --accent-light: #2A090B; 
+  --accent-mid: #FF1A26;
+  --border: rgba(45, 45, 45, 0.6); 
+  --border-light: rgba(30, 30, 30, 0.6);
+  --shadow: 0 10px 40px rgba(0,0,0,0.8); 
+  --shadow-hover: 0 20px 80px rgba(229,9,20,0.4); 
+  
+  --cta-text: #ffffff;
+  --cta-text-muted: rgba(255, 255, 255, 0.9);
+  --cta-border: rgba(255, 255, 255, 0.4);
+  --cta-bg: rgba(0, 0, 0, 0.2);
+  --cta-focus: #ffffff;
+}
+
+/* CUSTOM SELECTION & SCROLLBAR */
+::selection { background: var(--accent); color: #fff; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--accent) 50%, transparent); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; background: var(--bg); }
+
+body { 
+  background: transparent; 
+  color: var(--text); 
+  font-family: var(--font-body); 
+  font-size: 16px; 
+  line-height: 1.65; 
+  transition: color var(--transition); 
+  overflow-x: hidden; 
+  position: relative;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+button { font-family: var(--font-body); cursor: pointer; border: none; background: none; outline: none; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; }
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 32px; position: relative; z-index: 10; }
+
+/* AMBIENT GLOW BACKGROUND & CURSOR */
+.cursor-glow {
+  position: fixed; width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 60%);
+  pointer-events: none; z-index: 0; transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s; will-change: left, top;
+}
+.ambient-bg {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: -1; overflow: hidden; pointer-events: none;
+  background: var(--bg); transition: background var(--transition);
+}
+.orb {
+  position: absolute; border-radius: 50%; filter: blur(140px); opacity: 0.5;
+  animation: floatOrb 25s infinite ease-in-out alternate;
+}
+.orb-1 { width: 50vw; height: 50vw; background: color-mix(in srgb, var(--accent) 20%, transparent); top: -10%; left: -10%; }
+.orb-2 { width: 40vw; height: 40vw; background: color-mix(in srgb, var(--accent) 15%, transparent); bottom: -10%; right: -5%; animation-delay: -5s; animation-duration: 30s; }
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(10vw, 15vh) scale(1.2) rotate(180deg); }
+  100% { transform: translate(-10vw, -10vh) scale(0.8) rotate(360deg); }
+}
+
+/* OVERBOARD ANIMATIONS */
+@keyframes neon-pulse {
+  0%, 100% { text-shadow: 0 0 10px rgba(229,9,20,0.5), 0 0 20px rgba(229,9,20,0.3); }
+  50% { text-shadow: 0 0 20px rgba(229,9,20,0.8), 0 0 40px rgba(229,9,20,0.5), 0 0 60px rgba(229,9,20,0.3); }
+}
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+@keyframes shine {
+  0% { left: -100%; }
+  20% { left: 200%; }
+  100% { left: 200%; }
+}
+@keyframes levitate {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+/* EXTREME REVEAL */
+.reveal { 
+  opacity: 0; 
+  transform: perspective(1000px) translateY(80px) rotateX(-15deg) scale(0.9); 
+  filter: blur(10px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 1.2s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+.reveal.visible { opacity: 1; transform: perspective(1000px) translateY(0) rotateX(0) scale(1); filter: blur(0); }
+.reveal-delay-1 { transition-delay: 0.1s; } .reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; } .reveal-delay-4 { transition-delay: 0.4s; }
+
+/* UI ELEMENTS */
+.tag { display: inline-flex; align-items: center; gap: 6px; background: var(--bg-card); color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); padding: 6px 16px; border-radius: 100px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-family: var(--font-mono); transition: all var(--transition); backdrop-filter: blur(8px); position: relative; overflow: hidden; }
+.tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: neon-pulse 2s infinite; }
+.tag:hover { background: color-mix(in srgb, var(--accent) 15%, transparent); transform: scale(1.05); border-color: var(--accent); box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 40%, transparent); }
+
+/* HEADER */
+.header { position: sticky; top: 0; z-index: 100; background: color-mix(in srgb, var(--bg) 50%, transparent); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-light); transition: all var(--transition); }
+.header-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 24px; }
+.logo { font-family: var(--font-display); font-weight: 900; font-size: 1.4rem; color: var(--text); white-space: nowrap; transition: transform var(--transition); position: relative; }
+.logo:hover { animation: glitch 0.3s linear infinite; color: var(--accent); }
+.logo span { color: var(--accent); }
+.nav { display: flex; align-items: center; gap: 8px; }
+.nav a { padding: 8px 16px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; color: var(--text-muted); transition: all 0.3s; position: relative; overflow: hidden; }
+.nav a::after { content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: var(--accent); transition: all 0.3s; transform: translateX(-50%); }
+.nav a:hover::after { width: 100%; }
+.nav a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 5%, transparent); }
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.btn-theme { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 15px; transition: all var(--transition); box-shadow: var(--shadow); }
+.btn-theme:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: rotate(180deg) scale(1.1); box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 60%, transparent); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 28px; border-radius: var(--radius-md); font-size: 14px; font-weight: 700; transition: all var(--transition); cursor: pointer; backdrop-filter: blur(8px); position: relative; overflow: hidden; z-index: 1; }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 20px color-mix(in srgb, var(--accent) 40%, transparent); border: 1px solid var(--accent); }
+.btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transform: skewX(-20deg); animation: shine 4s infinite; z-index: -1; }
+.btn-primary:hover { background: var(--accent-mid); box-shadow: 0 10px 40px color-mix(in srgb, var(--accent) 80%, transparent); transform: translateY(-4px) scale(1.05); }
+
+.btn-secondary { background: var(--bg-card); color: var(--text); border: 1.5px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); transform: translateY(-4px) scale(1.05); box-shadow: var(--shadow-hover); }
+.btn-lg { padding: 16px 36px; font-size: 15px; border-radius: var(--radius-lg); }
+.hamburger { display: none; flex-direction: column; gap: 5px; padding: 6px; }
+.hamburger span { width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all var(--transition); }
+
+/* 3D GLASS CARD UTILITY */
+.glass-card { 
+  background: var(--bg-card); border: 1px solid var(--border-light); 
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
+  box-shadow: var(--shadow); border-radius: var(--radius-xl); 
+  transition: border-color var(--transition), box-shadow var(--transition); 
+  transform-style: preserve-3d; will-change: transform;
+}
+.glass-card:hover { 
+  box-shadow: var(--shadow-hover); 
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent); 
+}
+
+/* HERO */
+.hero { padding: 140px 0 100px; position: relative; overflow: visible; z-index: 10; }
+.hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center; }
+.hero-eyebrow { margin-bottom: 32px; }
+.hero-headline { font-size: clamp(3.2rem, 6.5vw, 5rem); font-weight: 900; line-height: 1.05; margin-bottom: 28px; letter-spacing: -0.03em; }
+.hero-headline em { font-style: italic; color: var(--accent); display: inline-block; animation: neon-pulse 3s infinite alternate; }
+.hero-para { font-size: 1.2rem; color: var(--text-muted); max-width: 520px; margin-bottom: 48px; line-height: 1.8; }
+.hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+.hero-cards { display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 2; padding-left: 20px; perspective: 1000px; }
+
+/* Floating Chat Cards */
+.chat-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 24px 28px; box-shadow: var(--shadow); backdrop-filter: blur(12px); transform-style: preserve-3d; }
+.chat-card.floating-1 { animation: levitate 6s ease-in-out infinite; }
+.chat-card.floating-2 { animation: levitate 7s ease-in-out infinite 1s; }
+.chat-card.floating-3 { animation: levitate 8s ease-in-out infinite 2s; }
+.chat-card.floating-4 { animation: levitate 6.5s ease-in-out infinite 1.5s; }
+
+.chat-card.them { border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 6px; }
+.chat-card.me { border-radius: var(--radius-lg) var(--radius-lg) 6px var(--radius-lg); background: linear-gradient(135deg, var(--accent), var(--accent-mid)); border-color: var(--accent); color: #fff; margin-left: 40px; box-shadow: 0 15px 40px color-mix(in srgb, var(--accent) 40%, transparent); }
+.chat-card .who { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 10px; font-family: var(--font-mono); opacity: 0.7; transform: translateZ(20px); }
+.chat-card.me .who { color: rgba(255,255,255,0.9); }
+.chat-card p { font-size: 16px; font-weight: 500; line-height: 1.6; transform: translateZ(30px); }
+.chat-card.me p { color: #fff; }
+.hero-stat-row { display: flex; gap: 40px; margin-top: 56px; flex-wrap: wrap; padding-top: 40px; border-top: 1px solid var(--border); }
+.hero-stat strong { font-size: 2rem; font-weight: 900; color: var(--text); display: block; animation: neon-pulse 4s infinite; }
+.hero-stat span { font-size: 13px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
+
+/* IDENTITY */
+.identity { padding: 100px 0; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); background: color-mix(in srgb, var(--bg-alt) 40%, transparent); backdrop-filter: blur(10px); position: relative; overflow: hidden; }
+.identity::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 5%, transparent), transparent); transform: skewX(-45deg); animation: shine 6s infinite; pointer-events: none; }
+.identity-inner { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+.identity-name { font-family: var(--font-display); font-weight: 900; font-size: clamp(3.5rem, 8vw, 8rem); line-height: 0.9; letter-spacing: -0.05em; transition: transform var(--transition); }
+.identity-name:hover { transform: scale(1.05) rotate(-2deg); }
+.identity-name .outline { -webkit-text-stroke: 2px var(--text); color: transparent; opacity: 0.2; transition: all 0.5s; }
+.identity:hover .identity-name .outline { -webkit-text-stroke: 2px var(--accent); text-shadow: 0 0 30px color-mix(in srgb, var(--accent) 60%, transparent); opacity: 1; }
+.identity-role-block { flex: 1; min-width: 240px; border-left: 4px solid var(--accent); padding-left: 32px; }
+.identity-role-block p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-mono); font-size: 12px;}
+.identity-role-block strong { display: block; font-size: 1.5rem; font-weight: 700; color: var(--text); }
+
+/* SERVICES */
+.services { padding: 140px 0; }
+.section-header { margin-bottom: 80px; position: relative; z-index: 2; }
+.section-header h2 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; letter-spacing: -0.03em; margin-top: 20px; }
+.section-header p { font-size: 1.2rem; color: var(--text-muted); margin-top: 20px; max-width: 600px; line-height: 1.8; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; perspective: 1000px; }
+.service-card { padding: 48px 40px; position: relative; overflow: hidden; transform-style: preserve-3d; }
+.service-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at top right, color-mix(in srgb, var(--accent) 15%, transparent), transparent 70%); opacity: 0; transition: opacity 0.5s; }
+.service-card:hover::before { opacity: 1; }
+.service-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 6px; background: var(--accent); opacity: 0; transform: scaleX(0); transform-origin: left; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s; box-shadow: 0 0 20px var(--accent); }
+.service-card:hover::after { opacity: 1; transform: scaleX(1); }
+.service-num { font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--accent); margin-bottom: 32px; opacity: 0.8; transform: translateZ(20px); }
+.service-icon { width: 64px; height: 64px; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--accent) 15%, transparent); display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 32px; color: var(--accent); transition: all 0.5s; transform: translateZ(40px); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+.service-card:hover .service-icon { transform: translateZ(60px) scale(1.2) rotate(10deg); background: var(--accent); color: #fff; box-shadow: 0 10px 30px color-mix(in srgb, var(--accent) 50%, transparent); }
+.service-card h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 16px; transform: translateZ(30px); }
+.service-card p { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; transform: translateZ(20px); }
+
+/* PROCESS */
+.process { padding: 140px 0; background: color-mix(in srgb, var(--bg-alt) 40%, transparent); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+.process-inner { display: grid; grid-template-columns: 1fr 1.2fr; gap: 100px; align-items: center; }
+.process-left h2 { font-size: clamp(2.5rem, 4vw, 3.8rem); font-weight: 900; letter-spacing: -0.03em; margin-top: 20px; margin-bottom: 32px; }
+.process-left p { font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 48px; }
+.process-steps { display: flex; flex-direction: column; gap: 20px; perspective: 1000px; }
+.process-step { display: flex; align-items: flex-start; gap: 32px; padding: 32px; border-radius: var(--radius-lg); border: 1px solid transparent; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); transform-style: preserve-3d; }
+.process-step:hover { background: var(--bg-card); border-color: color-mix(in srgb, var(--accent) 40%, transparent); box-shadow: var(--shadow-hover); transform: translateX(20px) scale(1.02); backdrop-filter: blur(12px); }
+.step-num { width: 56px; height: 56px; border-radius: 50%; background: var(--bg); color: var(--text); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 16px; font-weight: 700; flex-shrink: 0; border: 2px solid var(--border); transition: all 0.5s; transform: translateZ(30px); }
+.process-step:hover .step-num { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 0 30px color-mix(in srgb, var(--accent) 60%, transparent); transform: translateZ(50px) scale(1.1) rotate(360deg); }
+.step-content { transform: translateZ(20px); }
+.step-content h4 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+.step-content p { font-size: 1.05rem; color: var(--text-muted); line-height: 1.6; }
+
+/* PORTFOLIO */
+.portfolio { padding: 140px 0; }
+.portfolio-grid { display: flex; flex-direction: column; gap: 60px; margin-top: 80px; perspective: 1500px; }
+.project-card { border-radius: var(--radius-xl); overflow: hidden; display: grid; grid-template-columns: 1.2fr 1fr; border: none; padding: 16px; background: color-mix(in srgb, var(--bg-card) 50%, transparent); }
+.project-card:nth-child(even) { direction: rtl; grid-template-columns: 1fr 1.2fr; }
+.project-card:nth-child(even) > * { direction: ltr; }
+.project-img { aspect-ratio: 16/10; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: var(--radius-lg); position: relative; transform: translateZ(30px); box-shadow: var(--shadow); }
+.project-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(229,9,20,0.4), transparent); opacity: 0; transition: opacity 0.8s; mix-blend-mode: overlay; }
+.project-card:hover .project-img::after { opacity: 1; }
+.project-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+.project-card:hover .project-img img { transform: scale(1.15); }
+.project-info { padding: 60px; display: flex; flex-direction: column; justify-content: center; transform: translateZ(40px); }
+.project-type { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; display: inline-block; animation: neon-pulse 3s infinite alternate; }
+.project-info h3 { font-size: 2.5rem; font-weight: 800; margin-bottom: 24px; letter-spacing: -0.02em; }
+.project-result { font-size: 1.05rem; color: var(--text); background: color-mix(in srgb, var(--accent) 10%, transparent); border-left: 4px solid var(--accent); padding: 16px 24px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 32px; font-weight: 600; box-shadow: 0 10px 20px color-mix(in srgb, var(--accent) 10%, transparent); }
+.project-result strong { color: var(--accent); }
+.project-info p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; line-height: 1.8; }
+.btn-link { display: inline-flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 700; color: var(--accent); transition: all 0.4s; padding-bottom: 6px; border-bottom: 2px solid transparent; align-self: flex-start; text-transform: uppercase; letter-spacing: 0.05em; }
+.btn-link:hover { gap: 20px; border-color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+.btn-link::after { content: '→'; font-size: 20px; }
+
+/* TESTIMONIALS */
+.testimonials { padding: 140px 0; background: color-mix(in srgb, var(--bg-alt) 40%, transparent); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); }
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 80px; perspective: 1000px; }
+.testi-card { padding: 48px 40px; display: flex; flex-direction: column; gap: 32px; position: relative; }
+.testi-card::before { content: '"'; position: absolute; top: 10px; right: 30px; font-family: var(--font-display); font-size: 120px; color: var(--border); opacity: 0.2; line-height: 1; transition: all 0.5s; transform: translateZ(10px); }
+.testi-card:hover::before { color: var(--accent); opacity: 0.3; transform: translateZ(30px) rotate(10deg) scale(1.2); text-shadow: 0 0 20px var(--accent); }
+.testi-card:first-child { grid-column: span 2; }
+.testi-stars { color: var(--accent); font-size: 20px; letter-spacing: 4px; transform: translateZ(20px); text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 50%, transparent); }
+.testi-quote { font-size: 1.2rem; line-height: 1.8; flex: 1; position: relative; z-index: 1; transform: translateZ(30px); font-weight: 400; }
+.testi-quote em { font-style: italic; color: var(--accent); font-family: var(--font-display); font-size: 1.3rem; }
+.testi-author { display: flex; align-items: center; gap: 20px; padding-top: 24px; border-top: 1px solid color-mix(in srgb, var(--border-light) 50%, transparent); transform: translateZ(40px); }
+.testi-avatar { width: 56px; height: 56px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 15%, transparent); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; color: var(--accent); flex-shrink: 0; transition: all 0.5s; box-shadow: 0 0 15px color-mix(in srgb, var(--accent) 30%, transparent); }
+.testi-card:hover .testi-avatar { transform: scale(1.1) rotate(15deg); background: var(--accent); color: #fff; box-shadow: 0 0 25px var(--accent); }
+.testi-name { font-size: 16px; font-weight: 700; color: var(--text); }
+.testi-role { font-size: 13px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 4px; letter-spacing: 0.05em; text-transform: uppercase; }
+
+/* FAQ */
+.faq { padding: 140px 0; }
+.faq-inner { display: grid; grid-template-columns: 1fr 2fr; gap: 100px; align-items: start; }
+.faq-left h2 { font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 900; letter-spacing: -0.03em; margin-top: 20px; margin-bottom: 32px; }
+.faq-left p { font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; }
+.faq-list { display: flex; flex-direction: column; gap: 16px; }
+.faq-item { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); overflow: hidden; transition: all 0.5s; backdrop-filter: blur(12px); box-shadow: var(--shadow); }
+.faq-item:hover { border-color: color-mix(in srgb, var(--accent) 50%, transparent); transform: translateX(10px); }
+.faq-item.open { border-color: var(--accent); box-shadow: 0 20px 50px color-mix(in srgb, var(--accent) 20%, transparent); transform: translateX(15px) scale(1.02); }
+.faq-q { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 28px 40px; text-align: left; font-size: 1.2rem; font-weight: 700; color: var(--text); background: transparent; gap: 20px; cursor: pointer; transition: all 0.4s; }
+.faq-item.open .faq-q { color: var(--accent); text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 30%, transparent); }
+.faq-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; font-size: 20px; line-height: 1; flex-shrink: 0; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); border: 1px solid var(--border); color: var(--text); }
+.faq-item.open .faq-icon { transform: rotate(135deg) scale(1.1); background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
+.faq-a { display: none; padding: 0 40px 32px; font-size: 1.05rem; color: var(--text-muted); line-height: 1.8; background: transparent; }
+.faq-item.open .faq-a { display: block; animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+/* CTA SECTION */
+.cta-section { padding: 140px 0; background: color-mix(in srgb, var(--bg-alt) 80%, transparent); border-top: 1px solid var(--border-light); backdrop-filter: blur(15px); perspective: 1200px; }
+.cta-panel { background: linear-gradient(135deg, var(--accent), var(--accent-mid)); border-radius: var(--radius-xl); padding: 100px 80px; display: grid; grid-template-columns: 1.2fr 350px; gap: 80px; align-items: center; position: relative; overflow: hidden; box-shadow: 0 40px 100px color-mix(in srgb, var(--accent) 40%, transparent); transform-style: preserve-3d; transition: transform 0.5s; }
+.cta-panel:hover { transform: translateY(-10px) rotateX(2deg); }
+.cta-panel::before { content: ''; position: absolute; top: -200px; right: -100px; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%); pointer-events: none; animation: floatOrb 12s infinite alternate; }
+.cta-text { transform: translateZ(40px); }
+.cta-text h2 { font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 900; color: var(--cta-text); margin-bottom: 24px; letter-spacing: -0.03em; text-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.cta-text > p { font-size: 1.25rem; color: var(--cta-text-muted); margin-bottom: 48px; line-height: 1.8; text-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+.contact-form { display: flex; flex-direction: column; gap: 20px; position: relative; z-index: 1; transform: translateZ(50px); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-field { display: flex; flex-direction: column; gap: 10px; }
+.form-field label { font-size: 13px; font-weight: 700; color: var(--cta-text-muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.15em; }
+.form-field input, .form-field select, .form-field textarea { background: var(--cta-bg); border: 2px solid var(--cta-border); border-radius: var(--radius-sm); padding: 18px 24px; font-size: 16px; font-weight: 500; color: var(--cta-text); font-family: var(--font-body); outline: none; transition: all 0.4s; backdrop-filter: blur(8px); box-shadow: inset 0 2px 10px rgba(0,0,0,0.1); }
+.form-field input::placeholder, .form-field textarea::placeholder { color: color-mix(in srgb, var(--cta-text) 60%, transparent); }
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--cta-focus); background: rgba(0,0,0,0.5); box-shadow: 0 0 30px rgba(0,0,0,0.4), inset 0 2px 10px rgba(0,0,0,0.2); transform: translateY(-3px) scale(1.02); }
+.form-field select { appearance: none; cursor: pointer; }
+.form-field select option { background: #050505; color: #fff; }
+.form-field textarea { resize: vertical; min-height: 120px; }
+.btn-wa-submit { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: #fff; color: var(--accent); border: none; padding: 20px 40px; border-radius: var(--radius-lg); font-size: 18px; font-weight: 900; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 15px 35px rgba(0,0,0,0.2); margin-top: 12px; width: 100%; position: relative; overflow: hidden; }
+.btn-wa-submit::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(229,9,20,0.2), transparent); transform: skewX(-20deg); animation: shine 3s infinite; }
+.btn-wa-submit:hover { background: #f0f0f0; transform: translateY(-6px) scale(1.03); box-shadow: 0 25px 50px rgba(0,0,0,0.3); letter-spacing: 1px; }
+.btn-wa-submit svg path { fill: var(--accent); transition: fill var(--transition); }
+.cta-card { background: color-mix(in srgb, var(--cta-bg) 70%, transparent); border: 1px solid var(--cta-border); border-radius: var(--radius-lg); padding: 40px; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); align-self: stretch; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 1; box-shadow: 0 30px 60px rgba(0,0,0,0.3); transform: translateZ(60px); transition: transform 0.5s; }
+.cta-card:hover { transform: translateZ(80px) scale(1.05); border-color: rgba(255,255,255,0.6); }
+.cta-card-row { padding: 20px 0; border-bottom: 1px solid color-mix(in srgb, var(--cta-border) 40%, transparent); }
+.cta-card-row:last-child { border-bottom: none; padding-bottom: 0; }
+.cta-card-row:first-child { padding-top: 0; }
+.cta-card-label { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cta-text-muted); margin-bottom: 8px; }
+.cta-card-val { font-size: 15px; font-weight: 700; color: var(--cta-text); }
+.cta-status { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+.cta-status::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: #fff; flex-shrink: 0; box-shadow: 0 0 0 4px rgba(255,255,255,0.4); animation: pulse-white 1.5s infinite; }
+@keyframes pulse-white { 0%, 100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.4); } 50% { box-shadow: 0 0 0 8px rgba(255,255,255,0.1); } }
+
+/* FOOTER */
+.footer { padding: 100px 0 60px; border-top: 1px solid var(--border-light); background: var(--bg); position: relative; z-index: 10; }
+.footer-inner { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 64px; }
+.footer-brand .logo { font-size: 1.8rem; margin-bottom: 20px; }
+.footer-brand p { font-size: 16px; color: var(--text-muted); line-height: 1.8; max-width: 260px; }
+.footer-col h5 { font-size: 14px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text); font-family: var(--font-mono); margin-bottom: 32px; }
+.footer-col a { display: flex; align-items: center; gap: 16px; font-size: 16px; color: var(--text-muted); padding: 10px 0; transition: all 0.4s; font-weight: 500; }
+.footer-col a:hover { color: var(--accent); transform: translateX(10px); text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 50%, transparent); }
+.social-icon { width: 44px; height: 44px; min-width: 44px; border-radius: var(--radius-sm); background: var(--bg-alt); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); flex-shrink: 0; color: var(--text); }
+.footer-col a:hover .social-icon { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 10px 25px color-mix(in srgb, var(--accent) 60%, transparent); transform: scale(1.2) rotate(15deg); }
+.footer-bottom { margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+.footer-bottom p { font-size: 15px; color: var(--text-muted); font-weight: 500; }
+
+/* MOBILE MENU */
+.mobile-menu { display: none; position: fixed; inset: 0; z-index: 200; background: color-mix(in srgb, var(--bg) 95%, transparent); backdrop-filter: blur(20px); padding: 32px 40px; flex-direction: column; gap: 12px; }
+.mobile-menu.open { display: flex; animation: fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes fade-in { from { opacity: 0; transform: scale(1.05); filter: blur(10px); } to { opacity: 1; transform: scale(1); filter: blur(0); } }
+.mobile-menu-close { align-self: flex-end; font-size: 28px; padding: 12px; color: var(--text); cursor: pointer; margin-bottom: 20px; transition: all 0.4s; }
+.mobile-menu-close:hover { transform: rotate(180deg) scale(1.2); color: var(--accent); text-shadow: 0 0 15px var(--accent); }
+.mobile-menu a { display: block; padding: 16px 0; font-size: 1.6rem; font-weight: 700; color: var(--text); border-bottom: 1px solid var(--border-light); transition: all 0.4s; }
+.mobile-menu a:hover { color: var(--accent); padding-left: 20px; border-color: var(--accent); text-shadow: 0 0 20px color-mix(in srgb, var(--accent) 50%, transparent); }
+
+/* RESPONSIVE */
+@media (max-width: 1040px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+  .hero-cards { flex-direction: row; flex-wrap: wrap; padding-left: 0; }
+  .chat-card { flex: 1; min-width: 250px; margin-left: 0 !important; }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .process-inner { grid-template-columns: 1fr; gap: 60px; }
+  .faq-inner { grid-template-columns: 1fr; gap: 60px; }
+  .cta-panel { grid-template-columns: 1fr; padding: 60px 40px; gap: 60px; }
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 60px; }
+}
+@media (max-width: 768px) {
+  .cursor-glow { display: none; } /* Hide heavy cursor effect on mobile */
+  .container { padding: 0 24px; }
+  .nav { display: none; }
+  .hamburger { display: flex; }
+  
+  .hero { padding: 100px 0 80px; }
+  .hero-headline { font-size: clamp(2.8rem, 12vw, 4rem); }
+  .hero-cards { flex-direction: row; flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 32px; margin: 0 -24px; padding-left: 24px; padding-right: 24px; gap: 20px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .chat-card { flex: 0 0 85%; scroll-snap-align: center; }
+  
+  .services, .process, .portfolio, .testimonials, .faq, .cta-section { padding: 100px 0; }
+  
+  .services-grid { grid-template-columns: 1fr; gap: 24px; }
+  .service-card { padding: 40px 32px; }
+  
+  .process-step { padding: 24px; flex-direction: column; gap: 20px; }
+  .step-num { margin-bottom: 12px; }
+  
+  .project-card { grid-template-columns: 1fr; padding: 20px; }
+  .project-card:nth-child(even) { direction: ltr; }
+  .project-info { padding: 40px 24px; }
+  
+  .testimonials-grid { grid-template-columns: auto; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 32px; margin: 60px -24px 0; padding-left: 24px; padding-right: 24px; gap: 20px; }
+  .testi-card { flex: 0 0 85%; scroll-snap-align: center; padding: 40px 32px; }
+  .testi-card:first-child { grid-column: auto; }
+  
+  .faq-q { padding: 24px; font-size: 1.1rem; }
+  .faq-a { padding: 0 24px 24px; }
+  
+  .cta-panel { padding: 48px 24px; }
+  .cta-card { padding: 32px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  
+  .footer-inner { grid-template-columns: 1fr; gap: 48px; }
+  .identity-name { font-size: clamp(3.5rem, 16vw, 6rem); }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-glow"></div>
+
+<div class="ambient-bg">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<header class="header">
+  <div class="container header-inner">
+    <a href="#" class="logo">Akala<span>.</span>Codes</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-theme" id="themeToggle" aria-label="Toggle dark mode">☀️</button>
+      <a href="#contact" class="btn btn-primary">Book a Call</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation">
+  <button class="mobile-menu-close" id="menuClose" aria-label="Close menu">✕</button>
+  <a href="#work" class="mobile-link">Work</a>
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#process" class="mobile-link">Process</a>
+  <a href="#testimonials" class="mobile-link">Testimonials</a>
+  <a href="#faq" class="mobile-link">FAQ</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="hero-eyebrow reveal"><span class="tag">Available for projects</span></div>
+        <h1 class="hero-headline reveal reveal-delay-1">I design websites that look <em>sharp</em> and convert better.</h1>
+        <p class="hero-para reveal reveal-delay-2">I help brands, startups, and creators launch modern websites with clean UI, clear structure, and memorable visual direction — from Uttar Pradesh to anywhere in the world.</p>
+        <div class="hero-ctas reveal reveal-delay-3">
+          <a href="#work" class="btn btn-primary btn-lg">View Projects</a>
+          <a href="#contact" class="btn btn-secondary btn-lg">Book a Call</a>
+        </div>
+        <div class="hero-stat-row reveal reveal-delay-4">
+          <div class="hero-stat"><strong>30+</strong><span>Projects delivered</span></div>
+          <div class="hero-stat"><strong>1 yr</strong><span>Experience</span></div>
+          <div class="hero-stat"><strong>95%</strong><span>Client satisfaction</span></div>
+        </div>
+      </div>
+      <div class="hero-cards">
+        <div class="chat-card them floating-1 reveal reveal-delay-1">
+          <div class="who">Client</div>
+          <p>Need a homepage that feels premium from the first scroll?</p>
+        </div>
+        <div class="chat-card me floating-2 reveal reveal-delay-2">
+          <div class="who">Saksham</div>
+          <p>Yes — built with clarity, speed, and strong design taste.</p>
+        </div>
+        <div class="chat-card them floating-3 reveal reveal-delay-3">
+          <div class="who">Client</div>
+          <p>Do you handle the full visual design and frontend?</p>
+        </div>
+        <div class="chat-card me floating-4 reveal reveal-delay-4">
+          <div class="who">Saksham</div>
+          <p>Strategy to screens. Every section designed to guide attention and drive action.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="identity">
+  <div class="container">
+    <div class="identity-inner">
+      <div class="identity-name">
+        <span class="outline">AKALA</span><br/>CODES
+      </div>
+      <div class="identity-role-block reveal">
+        <p>Founded by</p>
+        <strong>Saksham Verma</strong>
+        <br/><br/>
+        <p>Based in</p>
+        <strong>Uttar Pradesh, India</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="tag">What I do</span>
+      <h2>Not just pretty websites</h2>
+      <p>Design systems, landing pages, portfolio sites, product pages, and polished frontend experiences — built to perform.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card glass-card reveal">
+        <div class="service-icon">🧠</div>
+        <div class="service-num">01</div>
+        <h3>Strategic Design</h3>
+        <p>Every pixel has a purpose. I start with your brand goals, audience context, and conversion intent before I open a design tool. Looks great and works harder.</p>
+      </div>
+      <div class="service-card glass-card reveal reveal-delay-1">
+        <div class="service-icon">📐</div>
+        <div class="service-num">02</div>
+        <h3>Conversion-Focused Layouts</h3>
+        <p>Attention-aware composition, clear hierarchy, and CTAs that feel natural — not pushy. Your visitors always know what to do next.</p>
+      </div>
+      <div class="service-card glass-card reveal reveal-delay-2">
+        <div class="service-icon">⚡</div>
+        <div class="service-num">03</div>
+        <h3>Responsive Frontend Execution</h3>
+        <p>Clean, handoff-ready code or direct builds. Every layout is tested across breakpoints so it feels considered on every device, every time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="container">
+    <div class="process-inner">
+      <div class="process-left reveal">
+        <span class="tag">How I work</span>
+        <h2>From strategy to screens.</h2>
+        <p>Every project follows a clear process — no surprises, no scope creep. From the first call to the final handoff, I keep things moving forward.</p>
+        <a href="#contact" class="btn btn-primary">Start a Project</a>
+      </div>
+      <div class="process-right">
+        <div class="process-steps">
+          <div class="process-step glass-card reveal">
+            <div class="step-num">01</div>
+            <div class="step-content"><h4>Discovery &amp; Strategy</h4><p>We align on goals, audience, and what success looks like — before a single wireframe exists.</p></div>
+          </div>
+          <div class="process-step glass-card reveal reveal-delay-1">
+            <div class="step-num">02</div>
+            <div class="step-content"><h4>Wireframes &amp; Structure</h4><p>Low-fi layouts that nail information flow and page rhythm. Fast feedback loops here save time later.</p></div>
+          </div>
+          <div class="process-step glass-card reveal reveal-delay-2">
+            <div class="step-num">03</div>
+            <div class="step-content"><h4>Visual Design</h4><p>Typography, color, motion, and polish. This is where your brand comes alive in a browser.</p></div>
+          </div>
+          <div class="process-step glass-card reveal reveal-delay-3">
+            <div class="step-num">04</div>
+            <div class="step-content"><h4>Build &amp; Handoff</h4><p>Developer-ready assets or a working frontend — clean, documented, and easy to maintain.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="portfolio" id="work">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="tag">Selected work</span>
+      <h2>Recent projects</h2>
+      <p>Real projects, real clients — designed for clarity, conversion, and strong visual impact.</p>
+    </div>
+    <div class="portfolio-grid">
+
+      <article class="project-card glass-card reveal">
+        <div class="project-img">
+          <img src="https://i.ibb.co/Z6FZs9vP/Screenshot-2026-04-27-204703.png" alt="Dine In Restaurant landing page" />
+        </div>
+        <div class="project-info">
+          <div class="project-type">Restaurant · Landing Page</div>
+          <h3>Dine In — Restaurant Landing</h3>
+          <div class="project-result">🍽 <strong>Full landing page</strong> with reservations &amp; menu showcase</div>
+          <p>A complete landing page for a restaurant client — warm visual identity, table booking flow, and a menu layout that made the food look as good as it tastes. Built clean, fast, and fully responsive.</p>
+          <a href="#" class="btn-link">View Case Study</a>
+        </div>
+      </article>
+
+      <article class="project-card glass-card reveal">
+        <div class="project-img">
+          <img src="https://i.ibb.co/qYS6xvBp/Screenshot-2026-04-27-204748.png" alt="Sora Food booking and landing site" />
+        </div>
+        <div class="project-info">
+          <div class="project-type">F&amp;B · Booking &amp; Brand Site</div>
+          <h3>Sora Food — Booking &amp; Brand Site</h3>
+          <div class="project-result">📅 <strong>Online booking system</strong> with editorial brand identity</div>
+          <p>Brand and booking website for Sora Food, a modern restaurant. Seamless reservation UX paired with an editorial visual language that communicated quality before the first dish was ordered.</p>
+          <a href="#" class="btn-link">View Case Study</a>
+        </div>
+      </article>
+
+      <article class="project-card glass-card reveal">
+        <div class="project-img">
+          <img src="https://i.ibb.co/Kc6kB4XX/1.png" alt="Personal portfolio design" />
+        </div>
+        <div class="project-info">
+          <div class="project-type">Portfolio · Personal Branding</div>
+          <h3>Personal Portfolio — Designer Showcase</h3>
+          <div class="project-result">✨ <strong>Premium portfolio</strong> built for strong first impressions</div>
+          <p>A personal portfolio site designed to make an immediate impression — editorial typography, smooth scroll interactions, and a project layout that keeps visitors engaged from top to bottom.</p>
+          <a href="#" class="btn-link">View Case Study</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="tag">Social proof</span>
+      <h2>What clients say</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testi-card glass-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"Saksham ne humari restaurant ki website bilkul waise banayi jaise hum chahte the. <em>Professional, clean, aur bahut hi attractive.</em> Pehle hafte mein hi online table bookings aane lagi. Bohot happy hain hum — sach mein mast kaam hai bhai ka."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">RG</div>
+          <div><div class="testi-name">Rahul Gupta</div><div class="testi-role">Owner · Dine In Restaurant, Lucknow</div></div>
+        </div>
+      </div>
+      <div class="testi-card glass-card reveal reveal-delay-1">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"Very talented and <em>understands the brief quickly.</em> Sora Food ka site dekhke log bolta hai 'yaar ye kaafi premium lagta hai'. Exactly jo hum chahte the. Fast delivery bhi mili."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">PS</div>
+          <div><div class="testi-name">Priya Sharma</div><div class="testi-role">Founder · Sora Food</div></div>
+        </div>
+      </div>
+      <div class="testi-card glass-card reveal reveal-delay-2">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"Mujhe ek portfolio chahiye tha jo freelance clients attract kare. Akala Codes ne kuch aisa banaya ki mujhe khud baar baar dekhne ka man karta hai. 3 clients pehle mahine mein aa gaye."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">AK</div>
+          <div><div class="testi-name">Arjun Kapoor</div><div class="testi-role">Freelance Developer · Noida</div></div>
+        </div>
+      </div>
+      <div class="testi-card glass-card reveal reveal-delay-3">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"Saksham bhai se kaam karwaya — <em>bilkul time pe deliver kiya</em>, koi jhanjhat nahi. Mobile pe bhi site ekdum smooth hai. Koi bhi puche toh main recommend karunga zaroor."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">VT</div>
+          <div><div class="testi-name">Vikram Tiwari</div><div class="testi-role">Business Owner · Lucknow</div></div>
+        </div>
+      </div>
+      <div class="testi-card glass-card reveal reveal-delay-4">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"We needed a landing page for our startup on a tight budget. Saksham delivered something that looks way more expensive than what we paid. Genuinely surprised by the quality and how fast he worked."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">NM</div>
+          <div><div class="testi-name">Neha Mishra</div><div class="testi-role">Co-founder · Delhi-based Startup</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="faq-inner">
+      <div class="faq-left reveal">
+        <span class="tag">Common questions</span>
+        <h2>Good questions deserve real answers.</h2>
+        <p>If yours isn't listed, just ping me on WhatsApp — I reply fast.</p>
+      </div>
+      <div class="faq-list reveal">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">What kind of websites do you design?<span class="faq-icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">Landing pages, portfolio sites, restaurant &amp; food brand sites, business websites, product pages, and personal branding. If it lives in a browser and needs to look and work great, I'm the right fit.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Do you also build the site, or just design it?<span class="faq-icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">Both. I can deliver design files, or I can build clean HTML/CSS/JS myself. For more complex builds, I coordinate with developers and manage the design handoff so you don't have to.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">How long does a project usually take?<span class="faq-icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">A focused landing page can be done in 1–2 weeks. A full multi-page website typically runs 3–5 weeks. Depends on scope and how quickly you can provide feedback and content.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Can you redesign an existing site?<span class="faq-icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">Absolutely. A redesign starts with an honest audit of what's working and what's not — layout, mobile experience, visual hierarchy. Then we rebuild with intention, not just fresh colours.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Do you work with startups or small businesses?<span class="faq-icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">Yes — most of my clients are small businesses, local brands, and early-stage startups. I understand budget constraints and always aim to deliver maximum value for the scope we agree on.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">What's your pricing like?<span class="faq-icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">Pricing depends on what you need — a simple landing page is very different from a multi-page business site. I prefer understanding your project first, then giving you a fair fixed quote. No surprises. Let's talk on WhatsApp!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="contact">
+  <div class="container">
+    <div class="cta-panel reveal">
+      <div class="cta-text">
+        <span class="tag" style="background:transparent;color:var(--cta-text);border-color:var(--cta-border);">Let's work together</span>
+        <h2>Let's build your next website.</h2>
+        <p>Fill in a few details and I'll get back to you on WhatsApp within hours. No long forms, no corporate nonsense — just a quick chat to see if we're a good fit.</p>
+        <form class="contact-form" id="contactForm" onsubmit="return false;">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="clientName">Your Name *</label>
+              <input type="text" id="clientName" placeholder="Rahul Sharma" required />
+            </div>
+            <div class="form-field">
+              <label for="clientBusiness">Business / Brand</label>
+              <input type="text" id="clientBusiness" placeholder="Your company name" />
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="projectType">What do you need?</label>
+            <select id="projectType">
+              <option value="">Select project type...</option>
+              <option>Landing Page</option>
+              <option>Business Website</option>
+              <option>Portfolio Site</option>
+              <option>Restaurant / Food Brand Site</option>
+              <option>E-commerce Store</option>
+              <option>Redesign of existing site</option>
+              <option>Other / Not sure yet</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="projectDetails">Tell me a bit more</label>
+            <textarea id="projectDetails" placeholder="What's the project about? Any references, deadline, or budget in mind?"></textarea>
+          </div>
+          <button type="button" class="btn-wa-submit" onclick="sendToWhatsApp()">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Send via WhatsApp
+          </button>
+        </form>
+      </div>
+      <div class="cta-card">
+        <div class="cta-card-row">
+          <div class="cta-card-label">Studio</div>
+          <div class="cta-card-val">Akala Codes</div>
+        </div>
+        <div class="cta-card-row">
+          <div class="cta-card-label">Designer</div>
+          <div class="cta-card-val">Saksham Verma</div>
+        </div>
+        <div class="cta-card-row">
+          <div class="cta-card-label">Based in</div>
+          <div class="cta-card-val">Uttar Pradesh, India</div>
+        </div>
+        <div class="cta-card-row">
+          <div class="cta-card-label">Email</div>
+          <div class="cta-card-val" style="font-size:12px;word-break:break-all;">iblamestrox@gmail.com</div>
+        </div>
+        <div class="cta-card-row">
+          <div class="cta-card-label">WhatsApp</div>
+          <div class="cta-card-val">+91 90443 33193</div>
+        </div>
+        <div class="cta-card-row">
+          <div class="cta-card-label">Availability</div>
+          <div class="cta-status">Open for projects</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">Akala<span>.</span>Codes</div>
+        <p>Web designer crafting sharp, high-converting websites for brands and builders.</p>
+        <p style="margin-top:10px;font-size:14px;color:var(--text-muted);font-weight:600;">by Saksham Verma</p>
+      </div>
+      <div class="footer-col">
+        <h5>Work</h5>
+        <a href="#work">Projects</a>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <a href="#" aria-label="Instagram">
+          <span class="social-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </span>
+          <span>Instagram</span>
+        </a>
+        <a href="#" aria-label="Twitter / X">
+          <span class="social-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.858L1.254 2.25H8.08l4.258 5.628 5.906-5.628zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </span>
+          <span>Twitter / X</span>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <span class="social-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </span>
+          <span>LinkedIn</span>
+        </a>
+        <a href="#" aria-label="Dribbble">
+          <span class="social-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+          </span>
+          <span>Dribbble</span>
+        </a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:iblamestrox@gmail.com">
+          <span class="social-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </span>
+          <span>Email me</span>
+        </a>
+        <a href="https://wa.me/919044333193" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <span class="social-icon" style="background:#e8fef0;border-color:#b7f0cc;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </span>
+          <span>WhatsApp</span>
+        </a>
+        <a href="#contact">Book a call</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Akala Codes · Saksham Verma. All rights reserved.</p>
+      <p style="font-family:var(--font-mono);font-size:13px;color:var(--text-muted);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;">Designed &amp; built by Saksham Verma</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// THEME TOGGLE
+const themeToggle = document.getElementById('themeToggle');
+const html = document.documentElement;
+const saved = localStorage.getItem('theme') || 'dark';
+html.setAttribute('data-theme', saved);
+themeToggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+themeToggle.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+});
+
+// MOBILE MENU
+const hamburger = document.getElementById('hamburgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuClose = document.getElementById('menuClose');
+hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+menuClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+// FAQ
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    document.querySelectorAll('.faq-q').forEach(b => b.setAttribute('aria-expanded', 'false'));
+    if (!isOpen) { item.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+  });
+});
+
+// EXTREME SCROLL REVEAL (NO PARALLAX)
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// 3D TILT EFFECT ON CARDS
+document.querySelectorAll('.glass-card, .chat-card, .cta-panel').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -8; 
+    const rotateY = ((x - centerX) / centerX) * 8;
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
+  });
+});
+
+// CUSTOM CURSOR FOLLOWER
+const cursor = document.querySelector('.cursor-glow');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+
+// WHATSAPP SUBMIT
+function sendToWhatsApp() {
+  const name = document.getElementById('clientName').value.trim();
+  const business = document.getElementById('clientBusiness').value.trim();
+  const type = document.getElementById('projectType').value;
+  const details = document.getElementById('projectDetails').value.trim();
+  if (!name) { alert('Please enter your name before sending!'); return; }
+  const phone = '919044333193';
+  let msg = `👋 Hi Saksham! I came across Akala Codes and I'd love to discuss a project.\n\n`;
+  msg += `*Name:* ${name}\n`;
+  if (business) msg += `*Business/Brand:* ${business}\n`;
+  if (type) msg += `*Project Type:* ${type}\n`;
+  if (details) msg += `*Details:* ${details}\n`;
+  msg += `\nLooking forward to connecting! 🙏`;
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ACTIVE NAV
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav a');
+const scrollSpy = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.style.color = '');
+      const active = document.querySelector(`.nav a[href="#${e.target.id}"]`);
+      if (active) active.style.color = 'var(--accent)';
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => scrollSpy.observe(s));
+</script>
+</body>
+</html>
